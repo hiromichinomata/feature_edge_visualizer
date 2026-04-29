@@ -2,6 +2,9 @@
 const config = {
   stories: ["../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [],
+  features: {
+    sidebarOnboardingChecklist: false,
+  },
   framework: {
     name: "@storybook/react-vite",
     options: {},
