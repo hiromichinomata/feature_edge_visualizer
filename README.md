@@ -1,6 +1,6 @@
 # Feature Edge Visualizer
 
-`features.csv` と `rest_edges.csv` を読み込み、feature をクラスタとして関係を可視化する Storybook プロジェクトです。
+`features.csv`・`edges.csv`・`rest_edges.csv` を読み込み、feature をクラスタとして関係を可視化する Storybook プロジェクトです。
 
 ## Requirements
 
@@ -46,13 +46,23 @@ ModelA,ModelB
 ModelC,ModelA
 ```
 
+`edges.csv`
+
+```csv
+from,to
+ModelA,ModelB
+ModelB,ModelC
+```
+
 ## Replace Data
 
 1. ルート直下の `features.csv` を差し替える
-2. ルート直下の `rest_edges.csv` を差し替える
-3. `npm run dev` で再表示する
+2. ルート直下の `edges.csv` を差し替える（同一feature内のrelation）
+3. ルート直下の `rest_edges.csv` を差し替える（feature跨ぎのrelation）
+4. `npm run dev` で再表示する
 
 ## Notes
 
 - feature が未設定のモデルは `unassigned` クラスタに入ります
 - エッジは矢印なし（線のみ）で表示されます
+- `edges.csv` と `rest_edges.csv` は Story 上のチェックボックスで個別に表示/非表示を切り替えできます
