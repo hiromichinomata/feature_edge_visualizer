@@ -5,13 +5,37 @@ import featuresCsvRaw from "../../features.csv?raw";
 import intraEdgesCsvRaw from "../../edges.csv?raw";
 import restEdgesCsvRaw from "../../rest_edges.csv?raw";
 
+const UI_COLORS = {
+  background: "#0b1020",
+  panelBackground: "rgba(13, 19, 38, 0.82)",
+  panelText: "#dbeafe",
+  panelSubtle: "#93c5fd",
+  intraEdge: "#38bdf8",
+  crossEdge: "#f472b6",
+};
+
+const FEATURE_NODE_PALETTE = [
+  "#60a5fa",
+  "#22d3ee",
+  "#2dd4bf",
+  "#34d399",
+  "#a3e635",
+  "#f59e0b",
+  "#fb7185",
+  "#f472b6",
+  "#c084fc",
+  "#a78bfa",
+  "#818cf8",
+  "#38bdf8",
+];
+
 function colorFromFeature(feature) {
   let hash = 0;
   for (let i = 0; i < feature.length; i += 1) {
     hash = feature.charCodeAt(i) + ((hash << 5) - hash);
   }
-  const hue = Math.abs(hash) % 360;
-  return `hsl(${hue}, 70%, 45%)`;
+  const paletteIndex = Math.abs(hash) % FEATURE_NODE_PALETTE.length;
+  return FEATURE_NODE_PALETTE[paletteIndex];
 }
 
 function FeatureClusterGraph() {
@@ -60,7 +84,7 @@ function FeatureClusterGraph() {
         id: `intra:${row.from}->${row.to}`,
         source: row.from,
         target: row.to,
-        fill: "#22c55e",
+        fill: UI_COLORS.intraEdge,
         data: { edgeType: "intra" },
       }));
 
@@ -70,7 +94,7 @@ function FeatureClusterGraph() {
         id: `cross:${row.from}->${row.to}`,
         source: row.from,
         target: row.to,
-        fill: "#f59e0b",
+        fill: UI_COLORS.crossEdge,
         dashed: true,
         data: { edgeType: "cross" },
       }));
@@ -95,7 +119,7 @@ function FeatureClusterGraph() {
   );
 
   return (
-    <div style={{ width: "100%", height: "100vh", background: "#0f172a" }}>
+    <div style={{ width: "100%", height: "100vh", background: UI_COLORS.background }}>
       <div
         style={{
           position: "absolute",
@@ -103,13 +127,15 @@ function FeatureClusterGraph() {
           margin: 12,
           padding: "8px 10px",
           borderRadius: 8,
-          color: "#e2e8f0",
-          background: "rgba(15, 23, 42, 0.8)",
+          color: UI_COLORS.panelText,
+          background: UI_COLORS.panelBackground,
           fontFamily: "sans-serif",
           fontSize: 13,
+          boxShadow: "0 6px 20px rgba(2, 6, 23, 0.38)",
+          border: "1px solid rgba(56, 189, 248, 0.22)",
         }}
       >
-        <div style={{ marginBottom: 6 }}>
+        <div style={{ marginBottom: 6, color: UI_COLORS.panelSubtle }}>
           {`Nodes: ${graph.nodes.length} / Edges: ${visibleEdges.length} / Features: ${featuresCount}`}
         </div>
         <label style={{ display: "block", cursor: "pointer", marginBottom: 4 }}>
